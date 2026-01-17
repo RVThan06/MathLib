@@ -1,5 +1,7 @@
+#include <iomanip>
 #include <iostream>
 
+#include "mathlib\Common.hpp"
 #include "mathlib\core\Complex.hpp"
 
 int main() {
@@ -21,8 +23,9 @@ int main() {
 
     // mathematical operations
     std::cout << "Conjugate of Number 1: " << cplx_num1.conjugate() << "\n";
-    std::cout << "Conjugate of Number 1: " << cplx_num1.magnitude() << "\n";
-    std::cout << "Conjugate of Number 1: " << cplx_num1.angle() << "\n"; // in radians
+    std::cout << "Magnitude of Number 1: " << cplx_num1.magnitude() << "\n";
+    std::cout << "Angle(degree) of Number 1: " << cplx_num1.angle() << "\n"; // in radians
+    std::cout << "Angle(radian) of Number 1: " << mathlib::to_degree<double>(cplx_num1.angle()) << "\n";
 
     // division by zero attempt
     try {
@@ -35,8 +38,11 @@ int main() {
     try {
         std::cout << cplx_num1 / 0;
     } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << '\n';
+        std::cerr << "Error: " << e.what() << "\n\n";
     }
+
+    std::cout << "PI (float): " << std::setprecision(20) << mathlib::PI<float> << "\n";
+    std::cout << "PI (double): " << std::setprecision(20) << mathlib::PI<double> << "\n";
 
     return 0;
 }
