@@ -1,9 +1,12 @@
 #ifndef COMPLEX_HPP
 #define COMPLEX_HPP
 
+#include <cassert>
 #include <cmath>
 #include <concepts>
 #include <iostream>
+#include <mathlib\Common.hpp>
+#include <stdexcept>
 
 namespace mathlib::core {
 
@@ -11,7 +14,6 @@ namespace mathlib::core {
  * @brief A templated complex number class (a + bi)
  * * This class implements a complex number class where
  * it restricts the implementation to floating-point (float, double, long double)
- * using concepts in C++20 to ensure mathematical correctness during division.
  * @tparam T The underlying floating-point type. Must satisfy `std::floating_point`.
  */
 
@@ -39,25 +41,24 @@ struct Complex {
 
     /**
      * @brief Equality operators to compare two complex number.
-     * @warning Comparing two floaating point is dangerous due to round of error.
-     * Use with caution or provide fuzzy comparison utility.
+     * @note uses fuzzy comparison to ensure safe comparison of two complex number
+     * within an acceptable margin of difference
      * @return true/false
      */
-    bool operator==(const Complex& other_complex) const {
-        if (m_real == other_complex.m_real && m_imag == other_complex.m_imag) {
+    bool operator==(const Complex& rhs) const {
+        if (mathlib::equals(m_real, rhs.m_real) && mathlib::equals(m_imag, rhs.m_imag)) {
             return true;
         }
-
         return false;
     }
 
-    bool operator!=(const Complex& other_complex) const { return !(*this == other_complex); }
+    bool operator!=(const Complex& rhs) const { return !(*this == rhs); }
 
     // --- Unary Operators ---
 
     /** @brief Returns the negation of a complex number (-a, -bI) */
-    [[nodiscard]] constexpr Complex operator-() const { return Complex(-m_real, -m_imag); }
-    [[nodiscard]] constexpr Complex operator+() const { return Complex(m_real, m_imag); }
+    constexpr Complex operator-() const { return Complex(-m_real, -m_imag); }
+    constexpr Complex operator+() const { return Complex(m_real, m_imag); }
 
     // --- Compound Assignment Operators ---
 
@@ -72,7 +73,9 @@ struct Complex {
         return *this;
     }
 
-    /** @brief Subtracts a complex number from this. Similar implementation to addition. */
+    /**
+     *  @brief Subtracts a complex number from this. Similar implementation to addition.
+     */
     constexpr Complex& operator-=(const Complex rhs_complx) {
         m_real -= rhs_complx.m_real;
         m_imag -= rhs_complx.m_imag;
@@ -93,8 +96,10 @@ struct Complex {
         return *this;
     }
 
-    /** @brief Multiples this complex number with a scalar value. */
-    constexpr Complex& operator*=(T scalar) {
+    /**
+     * @brief Multiples this complex number with a scalar value.
+     */
+    constexpr Complex& operator*=(const T& scalar) {
         m_real *= scalar;
         m_imag *= scalar;
         return *this;
@@ -107,8 +112,11 @@ struct Complex {
      * @throws std::runtime_error if tried to divide by 0
      */
     constexpr Complex& operator/=(const Complex& rhs_complex) {
-        if (rhs_complex.m_real == 0 && rhs_complex.m_imag == 0) {
-            throw std::runtime_error("Division by zero");
+        // debug build check
+        assert(rhs_complex.m_real > EPSILON<T> && rhs_complex.m_imag > EPSILON<T>);
+        // release build check
+        if (rhs_complex.m_real < EPSILON<T> || rhs_complex.m_imag < EPSILON<T>) {
+            throw std::overflow_error("Division by zero");
         }
 
         Complex conj(rhs_complex.m_real, -(rhs_complex.m_imag));
@@ -127,8 +135,11 @@ struct Complex {
      * @throws std::runtime_error if tried to divide by 0
      */
     constexpr Complex& operator/=(T scalar) {
-        if (scalar == 0) {
-            throw std::runtime_error("Division by zero");
+        // debug build check
+        assert(scalar > EPSILON<T>);
+        // release build check
+        if (scalar < EPSILON<T>) {
+            throw std::overflow_error("Division by zero");
         }
 
         m_real /= scalar;
@@ -138,40 +149,13 @@ struct Complex {
 
     // --- Binary Operators (Hidden Friends) ---
 
-    friend constexpr Complex operator+(Complex lhs, const Complex& rhs) {
-        lhs += rhs;
-        return lhs;
-    }
-
-    friend constexpr Complex operator-(Complex lhs, const Complex& rhs) {
-        lhs -= rhs;
-        return lhs;
-    }
-
-    friend constexpr Complex operator*(Complex lhs, const Complex& rhs) {
-        lhs *= rhs;
-        return lhs;
-    }
-
-    friend constexpr Complex operator*(Complex lhs, T scalar) {
-        lhs *= scalar;
-        return lhs;
-    }
-
-    friend constexpr Complex operator*(T scalar, Complex rhs) {
-        rhs *= scalar;
-        return rhs;
-    }
-
-    friend constexpr Complex operator/(Complex lhs, const Complex& rhs) {
-        lhs /= rhs;
-        return lhs;
-    }
-
-    friend constexpr Complex operator/(Complex lhs, T scalar) {
-        lhs /= scalar;
-        return lhs;
-    }
+    friend constexpr Complex operator+(Complex lhs, const Complex& rhs) { return (lhs += rhs); }
+    friend constexpr Complex operator-(Complex lhs, const Complex& rhs) { return (lhs -= rhs); }
+    friend constexpr Complex operator*(Complex lhs, const Complex& rhs) { return (lhs *= rhs); }
+    friend constexpr Complex operator*(Complex lhs, T scalar) { return (lhs *= scalar); }
+    friend constexpr Complex operator*(T scalar, Complex rhs) { return (rhs *= scalar); }
+    friend constexpr Complex operator/(Complex lhs, const Complex& rhs) { return (lhs /= rhs); }
+    friend constexpr Complex operator/(Complex lhs, T scalar) { return (lhs /= scalar); }
 
     // --- Ostream output operator overload ---
 
@@ -197,7 +181,7 @@ struct Complex {
 
     /**
      * @brief Calculates the phase angle (argument).
-     * @return The angle in **radians** in the range $(-\pi, \pi]$.
+     * @return The angle in **radians** in the range (-\pi, \pi].
      */
     T angle() const { return std::atan2(m_imag, m_real); }
 
