@@ -5,7 +5,7 @@
 #include <cmath>
 #include <concepts>
 #include <iostream>
-#include <mathlib\Common.hpp>
+#include <mathlib\Utilities.hpp>
 #include <stdexcept>
 
 namespace mathlib::core {
@@ -45,14 +45,14 @@ struct Complex {
      * within an acceptable margin of difference
      * @return true/false
      */
-    bool operator==(const Complex& rhs) const {
+    constexpr bool operator==(const Complex& rhs) const {
         if (mathlib::equals(m_real, rhs.m_real) && mathlib::equals(m_imag, rhs.m_imag)) {
             return true;
         }
         return false;
     }
 
-    bool operator!=(const Complex& rhs) const { return !(*this == rhs); }
+    constexpr bool operator!=(const Complex& rhs) const { return !(*this == rhs); }
 
     // --- Unary Operators ---
 
@@ -86,7 +86,7 @@ struct Complex {
      * @brief Multiplies this complex number by another.
      * @note Uses the mathematical formula: : (a+bi)(c+di) = (ac-bd) + (ad+bc)i.
      * Modifies the feft hand side (LHS) object to store the result value.
-     * @return Aa reference to the LHS object.
+     * @return A reference to the LHS object.
      */
     constexpr Complex& operator*=(const Complex rhs_complx) {
         T temp_real = (m_real * rhs_complx.m_real) - (m_imag * rhs_complx.m_imag);
@@ -109,7 +109,7 @@ struct Complex {
      * @brief Divides this complex number by another.
      * @note Performs division by multiplying by the conjugate denominator. Also
      * checks for zero division error
-     * @throws std::runtime_error if tried to divide by 0
+     * @throws std::overflow_error if tried to divide by 0
      */
     constexpr Complex& operator/=(const Complex& rhs_complex) {
         // debug build check
@@ -132,7 +132,7 @@ struct Complex {
      * @brief Divides this complex number with a scalar value.
      * @note performs division by simply diving real and imaginary part by scalar.
      * And performs zero division check.
-     * @throws std::runtime_error if tried to divide by 0
+     * @throws std::overflow_error if tried to divide by 0
      */
     constexpr Complex& operator/=(T scalar) {
         // debug build check
@@ -147,7 +147,7 @@ struct Complex {
         return *this;
     }
 
-    // --- Binary Operators (Hidden Friends) ---
+    // --- Binary Operators (Canonical Implementation) ---
 
     friend constexpr Complex operator+(Complex lhs, const Complex& rhs) { return (lhs += rhs); }
     friend constexpr Complex operator-(Complex lhs, const Complex& rhs) { return (lhs -= rhs); }
@@ -175,13 +175,14 @@ struct Complex {
     /**
      * @brief Calculates the magnitude (or modulus) of the complex number.
      * @return sqrt{real^2 + imag^2}
-     * Use cmath function std::sqrt so it is not constexpr function.
+     * Uses cmath function std::sqrt so it is not constexpr function.
      */
     T magnitude() const { return std::sqrt((m_real * m_real) + (m_imag * m_imag)); }
 
     /**
      * @brief Calculates the phase angle (argument).
      * @return The angle in **radians** in the range (-\pi, \pi].
+     * Uses cmath function std::atan2 so not constexpr
      */
     T angle() const { return std::atan2(m_imag, m_real); }
 
@@ -201,6 +202,9 @@ using Complexf = Complex<float>;
 
 /// @brief Alias for double precision complex numbers.
 using Complexd = Complex<double>;
+
+/// @brief Alias for long double precision complex numbers.
+using Complexld = Complex<long double>;
 
 } // namespace mathlib::core
 
