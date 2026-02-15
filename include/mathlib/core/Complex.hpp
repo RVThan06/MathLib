@@ -114,9 +114,9 @@ struct Complex {
      */
     constexpr Complex& operator/=(const Complex& rhs_complex) {
         // debug build check
-        assert(rhs_complex.m_real > EPSILON<T> && rhs_complex.m_imag > EPSILON<T>);
+        assert(std::abs(rhs_complex.m_real) > EPSILON<T> && std::abs(rhs_complex.m_imag) > EPSILON<T>);
         // release build check
-        if (rhs_complex.m_real < EPSILON<T> || rhs_complex.m_imag < EPSILON<T>) {
+        if (std::abs(rhs_complex.m_real) < EPSILON<T> || std::abs(rhs_complex.m_imag) < EPSILON<T>) {
             throw std::overflow_error("Division by zero");
         }
 
@@ -137,9 +137,9 @@ struct Complex {
      */
     constexpr Complex& operator/=(T scalar) {
         // debug build check
-        assert(scalar > EPSILON<T>);
+        assert(std::abs(scalar) > EPSILON<T>);
         // release build check
-        if (scalar < EPSILON<T>) {
+        if (std::abs(scalar) < EPSILON<T>) {
             throw std::overflow_error("Division by zero");
         }
 
