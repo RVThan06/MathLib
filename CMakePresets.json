@@ -23,7 +23,7 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "MATHLIB_BUILD_TESTS": "OFF",
-                "MATHLIB_BUILD_EXAMPLES": "OFF",
+                "MATHLIB_BUILD_EXAMPLES": "ON",
                 "MATHLIB_BUILD_SANDBOX": "ON"
             }
         },
@@ -35,8 +35,8 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "MATHLIB_BUILD_TESTS": "OFF",
-                "MATHLIB_BUILD_EXAMPLES": "OFF",
-                "MATHLIB_BUILD_SANDBOX": "OFF"
+                "MATHLIB_BUILD_EXAMPLES": "ON",
+                "MATHLIB_BUILD_SANDBOX": "ON"
             }
         }
     ],
