@@ -17,19 +17,21 @@ namespace mathlib::core {
  * @brief A 2D matrix class (R x C)
  * This class template implements 2D matrix where the matrix elements
  * are restricted to floating point numbers.
- * @tparam T is the flaoting point type for matrix elements
- * @tparam Row is the number of rows in matrix
- * @tparam Col is the number of columns in matrix
+ * @tparam T is natrix element type. Must satisfy `std::floating_point`.
+ * @tparam Row is the number of rows in matrix.
+ * @tparam Col is the number of columns in matrix.
+ * @note Row and column index (0, Row/Column].
  */
 
 template <std::floating_point T, std::size_t Row, std::size_t Col>
 struct Matrix {
+    // compile time check for template parameters
     static_assert(Row > 0 && Col > 0, "Matrix dimension cannot be 0.");
 
     /// @brief data member to store matrix as 1D array (Row-Major) - zero initialised by default
     std::array<T, Row * Col> m_array{};
 
-    /// @brief data members to store matrix dimension
+    /// @brief static data members to store matrix dimension
     static constexpr std::size_t m_rows = Row;
     static constexpr std::size_t m_cols = Col;
     static constexpr std::size_t m_size = Row * Col;
@@ -53,31 +55,32 @@ struct Matrix {
 
     /**
      * @brief List constructor to initialise 2D matrix
-     * @param list a 2D list with matrix elements
-     * @note if 2D list provided is jagged, vector construction will fail, list should match
+     * @param list a nested initializer list
+     * @note if 2D list provided is jagged, vector construction will fail, list dimension should match
      * matrix dimension.
+     * @throws std::length_error when initialiser list dimension is mismathced with matrix dimension.
      */
     constexpr Matrix(std::initializer_list<std::initializer_list<T>> list) {
         // debug build check
         assert(list.size() == m_rows && "Intilializer list size mismatch with matrix rows.");
 
-        // release build
+        // release build check
         if (list.size() != m_rows) {
             throw std::length_error("Intilializer list size mismatch with matrix rows.");
         }
 
-        // COpy values from intializer list after safety check is done
+        // Copy values from intializer list after safety check is done
         for (std::size_t i = 0; i < m_rows; i++) {
-            // debug check
+            // debug build check
             assert((list.begin() + i)->size() == m_cols && "Intilializer list size mismatch with matrix columns.");
 
-            // release check
+            // release build check
             if ((list.begin() + i)->size() != m_cols) {
                 throw std::length_error("Intilializer list size mismatch with matrix columns.");
             }
 
             for (std::size_t j = 0; j < m_cols; j++) {
-                (*this)(i, j) = *((list.begin() + i).begin() + j);
+                (*this)(i, j) = *((list.begin() + i)->begin() + j);
             }
         }
     }
@@ -85,12 +88,13 @@ struct Matrix {
     // --- Paranthesis operator overload ---
 
     /**
-     * @brief Access elements at (row, col)
+     * @brief Access elements at (row, col).
+     * Uses the formula (row_index * column_count) + column_index.
      * @warning there is no bound checking done
-     * @return reference to underlying m_array element of type T
+     * @return reference to underlying matrixelement of type T
      */
-    constexpr T& operator()(std::size_t row, std::size_t col) { return m_array[(row * col) + col]; }
-    constexpr const T& operator()(std::size_t row, std::size_t col) const { return m_array[(row * col) + col]; }
+    constexpr T& operator()(std::size_t row, std::size_t col) { return m_array[(row * m_cols) + col]; }
+    constexpr const T& operator()(std::size_t row, std::size_t col) const { return m_array[(row * m_cols) + col]; }
 
     // --- Matrix elements mutator functions ---
 
@@ -99,6 +103,7 @@ struct Matrix {
      * @param row: row index
      * @param col: column index
      * @param value: value to be stored at given matrix location
+     * @note Has bound checking for index
      * @throw std::out_of_range if row/col index is beyond matrix bound
      */
     constexpr void set_value(std::size_t row, std::size_t col, T value) {
@@ -111,13 +116,13 @@ struct Matrix {
         }
 
         // safely set element value
-        m_array[(row * col) + col] = value;
+        m_array[(row * m_cols) + col] = value;
     }
 
     /**
      * @brief Allows to set value for an entire row
      * @param row: the row index
-     * @param row_vector: a vector same size as the num of cols
+     * @param row_vector: a vector with same size as the num of cols
      */
     constexpr void set_row(std::size_t row, Vector<T, m_cols> row_vector) {
         // debug build check
@@ -128,7 +133,7 @@ struct Matrix {
             throw std::out_of_range("Matrix::set_row row exceeds matrix index.");
         }
         for (std::size_t i = 0; i < m_cols; i++) {
-            m_array[(row * i) + i] = row_vector[i];
+            m_array[(row * m_cols) + i] = row_vector[i];
         }
     }
 
@@ -146,13 +151,13 @@ struct Matrix {
             throw std::out_of_range("Matrix::set_column column exceeds matrix index.");
         }
         for (std::size_t i = 0; i < m_rows; i++) {
-            m_array[(i * col) + col] = column_vector[i];
+            m_array[(i * m_cols) + col] = column_vector[i];
         }
     }
 
     /**
      * @brief To extract an entire row of elements for any given row.
-     * @param row: the index of row to be extracted
+     * @param row: the index of row to be extracted (starts with 0)
      * @return all elements in a row returned as Mathlib::Vector object
      */
     constexpr Vector<T, Col> get_row_vector(std::size_t row) {
@@ -172,7 +177,7 @@ struct Matrix {
 
     /**
      * @brief To extract an entire column of elements for any given column.
-     * @param column: the index of column to be extracted
+     * @param column: the index of column to be extracted (starts with 0)
      * @return all elements in a column returned as Mathlib::Vector object
      */
     constexpr Vector<T, Row> get_column_vector(std::size_t column) {
@@ -240,7 +245,7 @@ struct Matrix {
 
     /**
      * @brief Compound division of matrix with scalar, modifies LHS matrix.
-     * @throw std::overflow_error if scalar value is smaller than epsilon.
+     * @throw std::overflow_error if scalar value is smaller than epsilon, to prevent zero division.
      * @return reference to LHS matrix.
      */
     constexpr Matrix& operator/=(const T& scalar) {
@@ -253,7 +258,7 @@ struct Matrix {
         return *this;
     }
 
-    // --- Friend arithmetic operators (Canonical implementation) ---
+    // --- Friend arithmetic operators (Canonical Implementation) ---
 
     /**
      * @brief Canonical implementation of arithmetic operators by calling compound assignment.
@@ -261,15 +266,15 @@ struct Matrix {
      */
     friend constexpr Matrix operator+(Matrix lhs, const Matrix& rhs) { return (lhs += rhs); }
     friend constexpr Matrix operator-(Matrix lhs, const Matrix& rhs) { return (lhs -= rhs); }
-    friend constexpr Matrix operator*(Matrix lhs, const T& scalar) { return (lhs += scalar); }
-    friend constexpr Matrix operator*(const T& scalar, Matrix rhs) { return (rhs += scalar); }
+    friend constexpr Matrix operator*(Matrix lhs, const T& scalar) { return (lhs *= scalar); }
+    friend constexpr Matrix operator*(const T& scalar, Matrix rhs) { return (rhs *= scalar); }
     friend constexpr Matrix operator/(Matrix lhs, const T& scalar) { return (lhs /= scalar); }
 
     /**
      * @brief Matrix multiplication (R x C) x (C x H) = (R x H)
-     * Uses member templates - fried function that is also a template
-     * allows for another template arguement besides class template arguements.
      * @return A copy of matrix object of dimension (R x H)
+     * @note Uses member templates - friend function that is also a template
+     * allows for another template arguement besides class template arguements.
      */
     template <std::size_t SecondCols>
     friend constexpr Matrix<T, Row, SecondCols> operator*(const Matrix& lhs, const Matrix<T, Col, SecondCols>& rhs) {
@@ -299,7 +304,7 @@ struct Matrix {
             for (std::size_t z = 0; z < m_cols; z++) {
                 value = value + ((*this)(x, z) * column_vector[z]);
             }
-            result(x, y) = value;
+            result(x, 0) = value;
         }
         return result;
     }
@@ -353,7 +358,7 @@ struct Matrix {
     /**
      * @brief Reshapes matrix into a new valid shape.
      * @note reshape dimension has to preserve total matrix elements count.
-     * @return a reshaped matrix with new dimension but same element count.
+     * @return a copy of reshaped matrix with new dimension but same element count.
      */
     template <std::size_t New_Row, std::size_t New_Col>
     constexpr Matrix<T, New_Row, New_Col> reshape() const {
@@ -367,7 +372,7 @@ struct Matrix {
     /**
      * @brief Extracts submatrix from current matrix.
      * @return a submatrix of the same dimension or smaller than current matrix.
-     * @throw std::out_of_range
+     * @throw std::out_of_range when matrix row/column index is beyond matrix dimension.
      */
     template <std::size_t sub_row, std::size_t sub_column>
     constexpr Matrix<T, sub_row, sub_column> sub_matrix(std::size_t row_start, std::size_t column_start) const {
