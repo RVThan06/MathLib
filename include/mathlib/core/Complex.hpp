@@ -74,7 +74,7 @@ struct Complex {
     }
 
     /**
-     *  @brief Subtracts a complex number from this. Similar implementation to addition.
+     *  @brief Subtracts a complex number from this. Similar implementation to compound addition.
      */
     constexpr Complex& operator-=(const Complex rhs_complx) {
         m_real -= rhs_complx.m_real;
@@ -85,7 +85,7 @@ struct Complex {
     /**
      * @brief Multiplies this complex number by another.
      * @note Uses the mathematical formula: : (a+bi)(c+di) = (ac-bd) + (ad+bc)i.
-     * Modifies the feft hand side (LHS) object to store the result value.
+     * Modifies the left hand side (LHS) object to store the result value.
      * @return A reference to the LHS object.
      */
     constexpr Complex& operator*=(const Complex rhs_complx) {
@@ -98,6 +98,7 @@ struct Complex {
 
     /**
      * @brief Multiples this complex number with a scalar value.
+     * @return A reference to the LHS complex number object.
      */
     constexpr Complex& operator*=(const T& scalar) {
         m_real *= scalar;
@@ -167,31 +168,31 @@ struct Complex {
     // --- Mathematical Utilities ---
 
     /**
-     * @brief Returns the complex conjugate.
-     * @return A new complex number (real, -imag).
+     * @brief Returns the complex conjugate (real, -imag) to this complex number.
+     * @return A copy of complex number conjugate.
      */
     constexpr Complex conjugate() const { return Complex(m_real, -m_imag); }
 
     /**
      * @brief Calculates the magnitude (or modulus) of the complex number.
-     * @return sqrt{real^2 + imag^2}
-     * Uses cmath function std::sqrt so it is not constexpr function.
+     * @return sqrt{real^2 + imag^2} as floating point T.
+     * @note Uses cmath function std::sqrt so it is not constexpr function.
      */
     T magnitude() const { return std::sqrt((m_real * m_real) + (m_imag * m_imag)); }
 
     /**
-     * @brief Calculates the phase angle (argument).
-     * @return The angle in **radians** in the range (-\pi, \pi].
+     * @brief Calculates the phase angle (arguement).
+     * @return The angle in **radians** in the range (-\pi, \pi] as floating point T.
      * Uses cmath function std::atan2 so not constexpr
      */
     T angle() const { return std::atan2(m_imag, m_real); }
 
-    // --- Data memebers ---
+    // --- Data members ---
 
     /// @brief The real part of the complex number.
     T m_real;
 
-    /// @brief The real part of the complex number.
+    /// @brief The imaginary part of the complex number.
     T m_imag;
 };
 
