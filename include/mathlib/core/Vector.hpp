@@ -15,21 +15,22 @@ namespace mathlib::core {
 
 /**
  * @brief Multidimensional Vector class.
- * Rhis class template implements multidimensional vector where the vector elements
+ * This class template implements multidimensional vector where the vector elements
  * are restricted to floating point numbers.
- * @tparam T is the type for vector elements, restricted to floating point.
+ * @tparam T is the type for vector elements, restricted to floating point (float, double, long double).
  * @tparam N the dimension of the vector, at least 1
  */
 
 template <std::floating_point T, std::size_t N>
 struct Vector {
+    // compile time check for template parameters
     static_assert(N > 0, "Vector dimension cannot be zero.");
 
     /// @brief data members to store vector and its dimension
-    std::array<T, N> m_array{};
+    std::array<T, N> m_array{}; // zero initialised
     static constexpr std::size_t m_dimensions = N;
 
-    /// @brief access for static data memeber
+    /// @brief static member function access for static data memeber
     static constexpr std::size_t get_dimension() { return m_dimensions; }
 
     // --- Constructors ---
@@ -55,7 +56,7 @@ struct Vector {
         assert(list.size() <= m_dimensions && "Initializer list is larger than vector dimension.");
 
         // release build check
-        if (list.size() <= m_dimensions) {
+        if (list.size() > m_dimensions) {
             throw std::length_error("Initializer list is larger than vector dimension.");
         }
         std::copy(list.begin(), list.end(), m_array.begin());
@@ -66,7 +67,7 @@ struct Vector {
     /**
      * @brief subscript overload for const and non-const vector objects
      * @warning there is no bound checking done
-     * @return reference to underlying m_array element
+     * @return reference to underlying vector elements
      */
     constexpr T& operator[](std::size_t index) { return m_array[index]; }
     constexpr const T& operator[](std::size_t index) const { return m_array[index]; }
@@ -114,7 +115,7 @@ struct Vector {
     }
 
     /**
-     * @brief compound multiplication of two vector objects.
+     * @brief compound multiplication of two vector objects (Hadamard product).
      * Element wise multiplication of each dimension to modify LHS operand.
      * @return a reference to the LHS operand.
      */
@@ -186,7 +187,7 @@ struct Vector {
     /**
      * @brief equality check of two vector objects.
      * Checks if each dimension of vector is the same.
-     * @return true - vector values match/ false = otherwise
+     * @return true - vector values match, false = otherwise
      */
     constexpr bool operator==(const Vector& rhs) const {
         // debug build check
@@ -242,7 +243,8 @@ struct Vector {
      */
     Vector get_unit_vector() const {
         if (magnitude() <= EPSILON<T>) {
-            return 0;
+            Vector empty_vector{};
+            return empty_vector;
         }
         return (*this / magnitude());
     }
@@ -273,7 +275,7 @@ struct Vector {
         if (rhs.magnitude() <= EPSILON<T>) {
             return Vector(0);
         }
-        T mag = magnitude();
+        T mag = rhs.magnitude();
         return ((dot(rhs) / (mag * mag)) * rhs);
     }
 
@@ -284,7 +286,7 @@ struct Vector {
     T distance_between(const Vector& rhs) const { return (*this - rhs).magnitude(); }
 
     /// @brief Computes the magnitude of a vector and returns it.
-    T magnitude() const { return std::sqrt((*this)->dot(*this)); }
+    T magnitude() const { return std::sqrt((*this).dot(*this)); }
 
     /// @brief To perform inplace normalisation of vector
     void normalise() { *this = get_unit_vector(); }
