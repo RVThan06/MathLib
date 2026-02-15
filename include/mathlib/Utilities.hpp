@@ -20,6 +20,15 @@ namespace mathlib {
 template <typename T>
 concept arithmetic = std::is_arithmetic_v<T>;
 
+/**
+ * @brief A concept that checks if a function f is callable with arguement type T and
+ * return a value of type T.
+ */
+template <typename F, typename T>
+concept ActualFucntion = requires(F f, T x) {
+    { f(x) } -> std::convertible_to<T>;
+};
+
 // --- Constants ---
 
 /**
