@@ -22,7 +22,7 @@
             "inherits": "windows-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "MATHLIB_BUILD_TESTS": "OFF",
+                "MATHLIB_BUILD_TESTS": "ON",
                 "MATHLIB_BUILD_EXAMPLES": "ON",
                 "MATHLIB_BUILD_SANDBOX": "ON"
             }

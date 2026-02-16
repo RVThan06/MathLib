@@ -20,7 +20,7 @@ endif()
 # You (Top Level) -> Default ON
 # User (Subdirectory) -> Default OFF
 option(MATHLIB_BUILD_TESTS "Build unit tests" OFF)
-option(MATHLIB_BUILD_EXAMPLES "Build example applications" ON)
+option(MATHLIB_BUILD_EXAMPLES "Build example applications" ${MATHLIB_IS_TOP_LEVEL})
 option(MATHLIB_BUILD_SANDBOX "Build local sandbox executable" ${MATHLIB_IS_TOP_LEVEL})
 
 # --- C++ Standard ---
