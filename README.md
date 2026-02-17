@@ -1,8 +1,8 @@
-MathLib
+## MathLib
 
 A modern, high-performance, header-only C++20 Math Library designed for numerical analysis and scientific computation.
 
-🚀 Features
+### 🚀 Features
 
 Module: Core
 
@@ -20,13 +20,13 @@ Integration: Numerical approximation via Trapezoidal and Simpson's rules.
 
 Differentiation: Central difference and Richardson Extrapolation for first and second derivatives.
 
-🛠️ Requirements
+### 🛠️ Requirements
 
 Compiler: C++20 compliant compiler (GCC 10+, Clang 10+, or MSVC 19.29+).
 
 Build System: CMake 3.20 or higher.
 
-📦 Installation
+### 📦 Installation
 
 MathLib is header-only. You can simply copy the include/ directory to your project, or integrate it via CMake.
 
@@ -51,7 +51,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(mathlib)
 ```
 
-💻 Quick Start
+### 💻 Quick Start
 
 Vector operations
 
@@ -87,7 +87,7 @@ if (root) {
 }
 ```
 
-🧪 Running Tests
+### 🧪 Running Tests
 
 This project uses GoogleTest for unit testing. To build and run the suite:
 
