@@ -4,7 +4,7 @@ A modern, high-performance, header-only C++20 Math Library designed for numerica
 
 ### 🚀 Features
 
-Module: Core
+### Module: Core
 
 Vectors: N-dimensional templated vectors.
 
@@ -12,7 +12,7 @@ Matrices: Templated $R \times C$ matrices with support for Row-Major order stora
 
 Complex Numbers: Full support for complex arithmetic ($a + bi$).
 
-Module: Numerical
+### Module: Numerical
 
 Root Finding: Newton-Raphson, Secant, Bisection, and False Position methods.
 
