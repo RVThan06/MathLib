@@ -50,11 +50,9 @@ struct Vector {
      * @note If a list shorter than vector dimension is provided, the higher dimensions will
      * have zero magnitude since the underlyig array is zero intialised before copying.
      * @param list the intialiser list with vector magnitude for each dimension.
+     * @throw std::length_error if initialiser list dimension is larger than vector.
      */
     constexpr Vector(std::initializer_list<T> list) {
-        // debug build check
-        assert(list.size() <= m_dimensions && "Initializer list is larger than vector dimension.");
-
         // release build check
         if (list.size() > m_dimensions) {
             throw std::length_error("Initializer list is larger than vector dimension.");
@@ -186,18 +184,9 @@ struct Vector {
 
     /**
      * @brief equality check of two vector objects.
-     * Checks if each dimension of vector is the same.
      * @return true - vector values match, false = otherwise
      */
     constexpr bool operator==(const Vector& rhs) const {
-        // debug build check
-        assert(m_array.size() == rhs.m_array.size() && "vector dimensions should match for comparison.");
-
-        // release build check
-        if (m_array.size() != rhs.m_array.size()) {
-            throw std::out_of_range("vector dimensions should match for comparison.");
-        }
-
         for (std::size_t i = 0; i < N; i++) {
             if (!mathlib::equals(m_array[i], rhs.m_array[i])) {
                 return false;
@@ -226,10 +215,6 @@ struct Vector {
      * @return a floating point result of dot product.
      */
     constexpr T dot(const Vector& rhs) const {
-        if (m_array.size() != rhs.m_array.size()) {
-            throw std::out_of_range("vector dimensions should match for dot product.");
-        }
-
         T total = 0;
         for (std::size_t i = 0; i < N; i++) {
             total += (m_array[i] * rhs[i]);
