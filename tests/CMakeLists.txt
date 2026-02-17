@@ -26,6 +26,7 @@ add_executable(MathLibTests
     MatrixTests.cpp
     DifferentiationTests.cpp
     IntegrationTests.cpp
+    RootsTests.cpp
 )
 
 # Link MathLib (code to test) and GTest (testing framework)
