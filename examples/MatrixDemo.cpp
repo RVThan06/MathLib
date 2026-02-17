@@ -92,10 +92,10 @@ int main() {
     std::cout << "Mat 2 traspose\n";
     std::cout << mat_2.transpose() << "\n";
 
-    std::cout << "Mat 2 * Mat 3 (hadamard Product)\n";
+    std::cout << "Mat 2 reshape\n";
     std::cout << mat_2.reshape<1, 9>() << "\n";
 
-    std::cout << "Mat 2 * Mat 3 (hadamard Product)\n";
+    std::cout << "Mat 2 submatrix\n";
     std::cout << mat_2.sub_matrix<2, 2>(0, 0) << "\n";
     return 0;
 }
