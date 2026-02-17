@@ -332,10 +332,8 @@ struct Matrix {
      */
     constexpr Matrix Hadamard_product(const Matrix& rhs) const {
         Matrix result;
-        for (std::size_t i = 0; i < Row; i++) {
-            for (std::size_t j = 0; j < Col; j++) {
-                result.m_array[i] = m_array[i] * rhs.m_array[i];
-            }
+        for (std::size_t i = 0; i < m_size; i++) {
+            result.m_array[i] = m_array[i] * rhs.m_array[i];
         }
         return result;
     }
