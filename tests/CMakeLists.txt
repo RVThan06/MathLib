@@ -23,6 +23,7 @@ FetchContent_MakeAvailable(googletest)
 add_executable(MathLibTests
     VectorTests.cpp
     ComplexTests.cpp
+    MatrixTests.cpp
 )
 
 # Link MathLib (code to test) and GTest (testing framework)
