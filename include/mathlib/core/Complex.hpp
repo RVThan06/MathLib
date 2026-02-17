@@ -113,10 +113,8 @@ struct Complex {
      * @throws std::overflow_error if tried to divide by 0
      */
     constexpr Complex& operator/=(const Complex& rhs_complex) {
-        // debug build check
-        assert(std::abs(rhs_complex.m_real) > EPSILON<T> && std::abs(rhs_complex.m_imag) > EPSILON<T>);
         // release build check
-        if (std::abs(rhs_complex.m_real) < EPSILON<T> || std::abs(rhs_complex.m_imag) < EPSILON<T>) {
+        if (std::abs(rhs_complex.m_real) < EPSILON<T> && std::abs(rhs_complex.m_imag) < EPSILON<T>) {
             throw std::overflow_error("Division by zero");
         }
 
@@ -136,8 +134,6 @@ struct Complex {
      * @throws std::overflow_error if tried to divide by 0
      */
     constexpr Complex& operator/=(T scalar) {
-        // debug build check
-        assert(std::abs(scalar) > EPSILON<T>);
         // release build check
         if (std::abs(scalar) < EPSILON<T>) {
             throw std::overflow_error("Division by zero");
