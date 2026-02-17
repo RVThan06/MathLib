@@ -110,4 +110,7 @@ TEST(VectorTests, SafetyChecks) {
     // vector division by zero
     mathlib::core::Vector<float, 4> vec_zero{};
     EXPECT_THROW(v1 / vec_zero, std::overflow_error);
+
+    // jagged initialiser list check
+    EXPECT_THROW((mathlib::core::Vector<float, 2>{2, 3, 4, 5}), std::length_error);
 }
