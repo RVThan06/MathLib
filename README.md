@@ -34,12 +34,14 @@ Integration via CMake
 
 Add this to your CMakeLists.txt:
 
+```
 add_subdirectory(path/to/MathLib)
 target_link_libraries(YourProject PRIVATE MathLib)
-
+```
 
 Or using FetchContent:
 
+```
 include(FetchContent)
 FetchContent_Declare(
   mathlib
@@ -47,7 +49,7 @@ FetchContent_Declare(
   GIT_TAG main
 )
 FetchContent_MakeAvailable(mathlib)
-
+```
 
 💻 Quick Start
 
@@ -89,6 +91,8 @@ if (root) {
 
 This project uses GoogleTest for unit testing. To build and run the suite:
 
+```
 cmake -B build -DMATHLIB_BUILD_TESTS=ON
 cmake --build build
 cd build && ctest --output-on-failure
+```
