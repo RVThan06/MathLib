@@ -61,9 +61,6 @@ struct Matrix {
      * @throws std::length_error when initialiser list dimension is mismathced with matrix dimension.
      */
     constexpr Matrix(std::initializer_list<std::initializer_list<T>> list) {
-        // debug build check
-        assert(list.size() == m_rows && "Intilializer list size mismatch with matrix rows.");
-
         // release build check
         if (list.size() != m_rows) {
             throw std::length_error("Intilializer list size mismatch with matrix rows.");
@@ -71,9 +68,6 @@ struct Matrix {
 
         // Copy values from intializer list after safety check is done
         for (std::size_t i = 0; i < m_rows; i++) {
-            // debug build check
-            assert((list.begin() + i)->size() == m_cols && "Intilializer list size mismatch with matrix columns.");
-
             // release build check
             if ((list.begin() + i)->size() != m_cols) {
                 throw std::length_error("Intilializer list size mismatch with matrix columns.");
