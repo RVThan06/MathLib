@@ -53,7 +53,7 @@ FetchContent_MakeAvailable(mathlib)
 
 Vector operations
 
-'''
+```
 #include <mathlib/core/Vector.hpp>
 
 void example() {
@@ -69,11 +69,11 @@ void example() {
     // Addition of vector
     mathlib::core::Vector<float, 3> temp =  vec_1 + vec_2;
 }
-'''
+```
 
 Numerical (Root Finding)
 
-'''
+```
 #include <mathlib/numerical/Roots.hpp>
 
 auto func = [](double x) { return x * x - 2.0; };
@@ -83,7 +83,7 @@ auto root = mathlib::numerical::Newton_Raphson(func, deriv, 1.0);
 if (root) {
     std::cout << "Square root of 2 is approx: " << *root << std::endl;
 }
-'''
+```
 
 🧪 Running Tests
 
