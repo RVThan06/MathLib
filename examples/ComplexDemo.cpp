@@ -27,8 +27,8 @@ int main() {
     // mathematical operations
     std::cout << "Conjugate of Number 1: " << cplx_num1.conjugate() << "\n";
     std::cout << "Magnitude of Number 1: " << cplx_num1.magnitude() << "\n";
-    std::cout << "Angle(degree) of Number 1: " << cplx_num1.angle() << "\n"; // in radians
-    std::cout << "Angle(radian) of Number 1: " << mathlib::to_degree<double>(cplx_num1.angle()) << "\n";
+    std::cout << "Angle(radian) of Number 1: " << cplx_num1.angle() << "\n"; // in radians
+    std::cout << "Angle(degree) of Number 1: " << mathlib::to_degree<double>(cplx_num1.angle()) << "\n";
 
     std::cout << "PI (float): " << std::setprecision(20) << mathlib::PI<float> << "\n";
     std::cout << "PI (double): " << std::setprecision(20) << mathlib::PI<double> << "\n";
