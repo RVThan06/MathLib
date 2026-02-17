@@ -83,4 +83,23 @@ TEST(MatrixTests, Operations) {
     EXPECT_DOUBLE_EQ(result(0, 1), 3.0);
     EXPECT_DOUBLE_EQ(result(1, 0), 2.0);
     EXPECT_DOUBLE_EQ(result(1, 1), 4.0);
+
+    // reshape
+    auto temp = mat_3.reshape<1, 4>();
+    EXPECT_EQ(temp.m_rows, 1);
+    EXPECT_EQ(temp.m_cols, 4);
+
+    // submatrix
+    EXPECT_EQ((mat_3.sub_matrix<1, 2>(0, 0)).m_rows, 1);
+    EXPECT_EQ((mat_3.sub_matrix<1, 2>(0, 0)).m_cols, 2);
+}
+
+TEST(MatrixTests, SafetyCheck) {
+    mathlib::core::Matrix<double, 2, 2> mat_1(1);
+
+    // zero division check
+    EXPECT_THROW(mat_1 / 0.0, std::overflow_error);
+
+    // jagged intialiser list check
+    EXPECT_THROW((mathlib::core::Matrix<double, 2, 2>{{1, 2}, {2}}), std::length_error);
 }
