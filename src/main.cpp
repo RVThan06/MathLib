@@ -1,13 +1,13 @@
 #include <cstddef>
 #include <iomanip>
 #include <iostream>
-#include <mathlib\Utilities.hpp>
-#include <mathlib\core\Complex.hpp>
-#include <mathlib\core\Matrix.hpp>
-#include <mathlib\core\Vector.hpp>
-#include <mathlib\numerical\Differentiation.hpp>
-#include <mathlib\numerical\Integration.hpp>
-#include <mathlib\numerical\Roots.hpp>
+#include <mathlib/Utilities.hpp>
+#include <mathlib/core/Complex.hpp>
+#include <mathlib/core/Matrix.hpp>
+#include <mathlib/core/Vector.hpp>
+#include <mathlib/numerical/Differentiation.hpp>
+#include <mathlib/numerical/Integration.hpp>
+#include <mathlib/numerical/Roots.hpp>
 #include <optional>
 
 int main() {

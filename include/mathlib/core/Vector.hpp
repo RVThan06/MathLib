@@ -8,7 +8,7 @@
 #include <cstddef>
 #include <initializer_list>
 #include <iostream>
-#include <mathlib\Utilities.hpp>
+#include <mathlib/Utilities.hpp>
 #include <stdexcept>
 
 namespace mathlib::core {

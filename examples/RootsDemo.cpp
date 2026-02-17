@@ -1,8 +1,8 @@
 #include <cstddef>
 #include <iomanip>
 #include <iostream>
-#include <mathlib\Utilities.hpp>
-#include <mathlib\numerical\Roots.hpp>
+#include <mathlib/Utilities.hpp>
+#include <mathlib/numerical/Roots.hpp>
 #include <optional>
 
 int main() {

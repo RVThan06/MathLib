@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <mathlib\core\Matrix.hpp>
+#include <mathlib/core/Matrix.hpp>
 
 TEST(MatrixTests, Construction) {
     // 1. Default intialisation

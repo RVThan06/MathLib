@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <mathlib\numerical\Differentiation.hpp>
+#include <mathlib/numerical/Differentiation.hpp>
 
 TEST(DifferentiationTests, CentralDifference) {
     auto poly_func = [](double x) {

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <mathlib\core\Complex.hpp>
+#include <mathlib/core/Complex.hpp>
 
 TEST(ComplexTests, Construction) {
     // 1. Default initialisation

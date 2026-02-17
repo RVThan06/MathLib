@@ -1,8 +1,8 @@
 #include <cstddef>
 #include <iomanip>
 #include <iostream>
-#include <mathlib\Utilities.hpp>
-#include <mathlib\numerical\Integration.hpp>
+#include <mathlib/Utilities.hpp>
+#include <mathlib/numerical/Integration.hpp>
 
 int main() {
     /*******************************************************************************************

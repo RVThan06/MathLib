@@ -8,7 +8,7 @@
 #include <cstddef>
 #include <initializer_list>
 #include <iostream>
-#include <mathlib\core\Vector.hpp>
+#include <mathlib/core/Vector.hpp>
 #include <stdexcept>
 
 namespace mathlib::core {

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <mathlib\numerical\Integration.hpp>
+#include <mathlib/numerical/Integration.hpp>
 
 TEST(IntegrationTests, Trapezoidal) {
     auto poly_func = [](double x) {

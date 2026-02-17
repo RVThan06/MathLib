@@ -1,8 +1,8 @@
 #include <cstddef>
 #include <iomanip>
 #include <iostream>
-#include <mathlib\Utilities.hpp>
-#include <mathlib\numerical\Differentiation.hpp>
+#include <mathlib/Utilities.hpp>
+#include <mathlib/numerical/Differentiation.hpp>
 
 int main() {
     /*******************************************************************************************

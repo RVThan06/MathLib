@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <mathlib\numerical\Roots.hpp>
+#include <mathlib/numerical/Roots.hpp>
 
 TEST(RootTests, NewtonRhapson) {
     auto poly_func_2 = [](double x) { return x * x + (static_cast<double>(2.0) * x) - static_cast<double>(15.0); };

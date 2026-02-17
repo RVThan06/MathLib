@@ -1,8 +1,8 @@
 #include <cstddef>
 #include <iomanip>
 #include <iostream>
-#include <mathlib\Utilities.hpp>
-#include <mathlib\core\Vector.hpp>
+#include <mathlib/Utilities.hpp>
+#include <mathlib/core/Vector.hpp>
 
 int main() {
     /*******************************************************************************************

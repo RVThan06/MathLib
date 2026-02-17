@@ -4,7 +4,7 @@
 #include <cmath>
 #include <concepts>
 #include <iostream>
-#include <mathlib\Utilities.hpp>
+#include <mathlib/Utilities.hpp>
 #include <optional>
 
 namespace mathlib::numerical {
