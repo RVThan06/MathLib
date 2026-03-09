@@ -4,6 +4,18 @@ A modern, high-performance, header-only C++20 Math Library designed for numerica
 
 ### 🚀 Features
 
+### C++ Implementation Highlights
+
+This library implements the principles of modern C++20 techniques, focusing on type safety, performance, and robustness:
+
+Template Metaprogramming: Extensive use of templates and constexpr to perform complex calculations and dimension validation at compile-time.
+
+C++20 Concepts: Implementation of custom concepts (e.g., arithmetic, ActualFucntion) and use of std::floating_point to provide clearer error messages and restrict templates to mathematically valid types.
+
+Robust Exception Handling: Defensive programming using std::length_error, std::out_of_range, and std::overflow_error to catch runtime math errors.
+
+Compile-time Safety: Utilization of static_assert to prevent invalid mathematical structures (like 0-dimension vectors) before the code even compiles.
+
 ### Module: Core
 
 Vectors: N-dimensional templated vectors.
