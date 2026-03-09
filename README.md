@@ -39,18 +39,6 @@ add_subdirectory(path/to/MathLib)
 target_link_libraries(YourProject PRIVATE MathLib)
 ```
 
-Or using FetchContent:
-
-```
-include(FetchContent)
-FetchContent_Declare(
-  mathlib
-  GIT_REPOSITORY [https://github.com/RVThan06/MathLib](https://github.com/RVThan06/MathLib)
-  GIT_TAG main
-)
-FetchContent_MakeAvailable(mathlib)
-```
-
 ### 💻 Quick Start
 
 Vector operations
