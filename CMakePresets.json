@@ -31,9 +31,9 @@
             "inherits": "windows-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "DATASTRUCTS_BUILD_TESTS": "ON",
-                "DATASTRUCTS_BUILD_EXAMPLES": "ON",
-                "DATASTRUCTS_BUILD_SANDBOX": "ON"
+                "MATHLIB_BUILD_TESTS": "ON",
+                "MATHLIB_BUILD_EXAMPLES": "ON",
+                "MATHLIB_BUILD_SANDBOX": "ON"
             }
         },
         {
@@ -43,9 +43,9 @@
             "inherits": "linux-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "DATASTRUCTS_BUILD_TESTS": "ON",
-                "DATASTRUCTS_BUILD_EXAMPLES": "ON",
-                "DATASTRUCTS_BUILD_SANDBOX": "ON"
+                "MATHLIB_BUILD_TESTS": "ON",
+                "MATHLIB_BUILD_EXAMPLES": "ON",
+                "MATHLIB_BUILD_SANDBOX": "ON"
             }
         },
         {
@@ -55,9 +55,9 @@
             "inherits": "windows-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "DATASTRUCTS_BUILD_TESTS": "OFF",
-                "DATASTRUCTS_BUILD_EXAMPLES": "ON",
-                "DATASTRUCTS_BUILD_SANDBOX": "ON"
+                "MATHLIB_BUILD_TESTS": "OFF",
+                "MATHLIB_BUILD_EXAMPLES": "ON",
+                "MATHLIB_BUILD_SANDBOX": "ON"
             }
         },
         {
@@ -67,9 +67,9 @@
             "inherits": "linux-base",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "DATASTRUCTS_BUILD_TESTS": "OFF",
-                "DATASTRUCTS_BUILD_EXAMPLES": "ON",
-                "DATASTRUCTS_BUILD_SANDBOX": "ON"
+                "MATHLIB_BUILD_TESTS": "OFF",
+                "MATHLIB_BUILD_EXAMPLES": "ON",
+                "MATHLIB_BUILD_SANDBOX": "ON"
             }
         }
     ],
